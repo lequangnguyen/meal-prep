@@ -3,7 +3,7 @@
         <v-layout row>
             <v-flex xs12 class="text-xs-center display-1 font-weight-black my-5">Available Meal Plans</v-flex>
         </v-layout>
-        <v-layout row wrap>
+        <v-layout row wrap class="meal-plans">
             <v-flex xs12 sm12 md4>
                 <v-card>
                     <v-responsive>
@@ -84,33 +84,11 @@
 </template>
 
 <script>
-    import axios from 'axios';
     export default {
         name: "HomePlans",
-        data(){
-            return {
-                recipes: []
-            };
-        },
         methods: {
             showRecipes(plan) {
-                axios
-                    .get('https://api.edamam.com/search', {
-                        params: {
-                            q: plan,
-                            app_id: '4711d13e',
-                            app_key: '716f1a1b35f78bbd78cf54697e9ef1d6',
-                            from: 0,
-                            to: 9
-                        }
-                    })
-                    .then(response => {
-                        response = response.data;
-                        this.recipes = response.hits;
-                    })
-                    .catch(() => {
-                        this.recipes = [];
-                    });
+                this.$store.dispatch('getRecipes', plan);
             }
         }
     }
